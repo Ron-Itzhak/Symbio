@@ -53,7 +53,7 @@ func CreatePostHandler(db *sql.DB) http.HandlerFunc {
 		result, err := db.Exec("INSERT INTO posts (title, body, author_id, author, created_at) VALUES (?, ?, ?, ?, ?)",
 			req.Title, req.Body, claims.UserId, claims.Username, time.Now())
 		if err != nil {
-			log.Printf("Error inserting post into database: %v", err) // Log the error
+			log.Printf("Error inserting post into database: %v", err)
 
 			http.Error(w, "Failed to create post", http.StatusInternalServerError)
 			return
@@ -112,7 +112,7 @@ func EditPostHandler(db *sql.DB) http.HandlerFunc {
 			if err == sql.ErrNoRows {
 				http.Error(w, "Post not found", http.StatusNotFound)
 			} else {
-				log.Printf("Error getting post from database: %v", err) // Log the error
+				log.Printf("Error getting post from database: %v", err)
 
 				http.Error(w, "Database error", http.StatusInternalServerError)
 			}
