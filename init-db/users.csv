@@ -1,0 +1,4 @@
+id,username,password,created_at
+1,johndoe,$10$rx82iraHcW5PAvwSAybiB.wGic5R3YumWopPDxzyU0IX7zFk9pCw2,2024-08-07 12:34:56
+2,janedoe,$2a$10$z5N3JtAHT7QoOZ9FN8D.YuIQE5lHjWibTRz8u2nV0A/EtpeCk3jOW,2024-08-07 12:45:01
+3,bobsmith,$2a$10$KyJ7D/ZG8g6Q7hIOr5psguE/vyAB3Zl9ndqSO9x1cT6S9F3s4LaU6,2024-08-07 13:01:23

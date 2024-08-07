@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  ui:
+    build:
+      context: ./ui/
+      dockerfile: Dockerfile-dev
+    ports:
+      - '3000:3000'
+    environment:
+     - NODE_ENV=development
+    develop:
+      watch:
+        - action: sync 
+          path: ./ui/src 
+          target: ./app/src 
+          ignore: 
+            - ./ui/node_modules/
+        - action: rebuild
+          path: ./ui/package.json 
+    depends_on:
+      - api
+  api:
+    build:
+      context: ./api/
+      dockerfile: Dockerfile-dev
+    ports:
+      - '8080:8080'
+    environment:
+      - JWT_SECRET_KEY=secret
+      - DB_CONNECTION=root:Aa123456!@tcp(db:3306)/app
+    develop:
+      watch:
+        - action: sync 
+          path: ./api 
+          target: ./app 
+        - action: rebuild
+          path: ./api   
+    depends_on:
+      - db
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Aa123456!
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Aa123456
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
