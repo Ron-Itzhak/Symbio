@@ -18,7 +18,6 @@ type Post struct {
 }
 
 func main() {
-	// Replace with your actual database credentials
 	dsn := "root:Aa123456!@tcp(host.docker.internal:3306)/app"
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
@@ -44,8 +43,6 @@ func main() {
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	// Write to JSON file
 	file, err := os.Create("./cli-ui/posts.json")
 	if err != nil {
 		log.Fatal(err)
