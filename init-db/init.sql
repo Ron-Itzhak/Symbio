@@ -1,4 +1,3 @@
--- Create the 'users' table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -6,7 +5,6 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the 'posts' table
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -17,27 +15,6 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
--- LOAD DATA INFILE '/users.csv'
--- INTO TABLE users
--- FIELDS TERMINATED BY ','
--- ENCLOSED BY '"'
--- LINES TERMINATED BY '\n'
--- IGNORE 1 ROWS
--- (id, username, password, created_at);
-
--- -- Load data into posts table
--- LOAD DATA INFILE '/posts.csv'
--- INTO TABLE posts
--- FIELDS TERMINATED BY ','
--- ENCLOSED BY '"'
--- LINES TERMINATED BY '\n'
--- IGNORE 1 ROWS
--- (id, title, body, author_id, author, created_at);
-
-
-
--- Insert mock data into 'users' table
 INSERT INTO users (id, username, password, created_at) VALUES
 (1, 'johndoe', '$2a$10$7Q79m7G7.ezRkF9Fty2T5eHJ.kHGXEM2Hk8JufEYgZ.PzdSwo9PZq', '2024-08-07 12:34:56'),
 (2, 'janedoe', '$2a$10$z5N3JtAHT7QoOZ9FN8D.YuIQE5lHjWibTRz8u2nV0A/EtpeCk3jOW', '2024-08-07 12:45:01'),

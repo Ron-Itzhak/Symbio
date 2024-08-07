@@ -1,5 +1,0 @@
-id,title,body,author_id,author,created_at
-1,First Post,This is the body of the first post.,1,John Doe,2024-08-07 14:00:00
-2,Second Post,This is the body of the second post.,2,Jane Doe,2024-08-07 15:30:00
-3,Third Post,This is the body of the third post.,3,Bob Smith,2024-08-07 16:45:00
-4,Another Post,Here's some more content in another post.,1,John Doe,2024-08-07 17:00:00
