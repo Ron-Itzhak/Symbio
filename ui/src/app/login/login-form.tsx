@@ -19,12 +19,14 @@ import Link from "next/link";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loginError } = useAuth();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login, loginError, setLoginError, isSubmitting } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(username, password);
+  };
+  const handleRoute = () => {
+    setLoginError(null);
   };
 
   return (
@@ -71,7 +73,11 @@ const LoginForm = () => {
             <span className="bg-background px-2 text-muted-foreground">
               Or continue with
             </span>
-            <Link className="font-bold" href="/register">
+            <Link
+              className="font-bold"
+              href="/register"
+              onClick={() => handleRoute()}
+            >
               Register
             </Link>
           </div>

@@ -18,6 +18,8 @@ interface AuthContextType {
   registerError: string | null;
   logout: () => void;
   isLoading: boolean;
+  setLoginError: React.Dispatch<React.SetStateAction<string | null>>;
+  isSubmitting: boolean;
 }
 
 interface User {
@@ -38,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -59,6 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     try {
+      setIsSubmitting(true);
       const url = `${apiUrl}/login`;
       const response = await fetch(url, {
         method: "POST",
@@ -81,11 +85,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: any) {
       console.error("Login failed:", error);
       setLoginError(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const register = async (username: string, password: string) => {
     try {
+      setIsSubmitting(true);
+
       const url = `${apiUrl}/register`;
       const response = await fetch(url, {
         method: "POST",
@@ -98,6 +106,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (data.message) {
         setRegisterError(null);
+        setLoginError(null);
 
         router.push("/login");
         return response.status;
@@ -107,6 +116,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: any) {
       setRegisterError(error.message);
       return 500;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -122,10 +133,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         isLoading,
         login,
+        setLoginError,
         loginError,
         register,
         registerError,
         logout,
+        isSubmitting,
       }}
     >
       {children}

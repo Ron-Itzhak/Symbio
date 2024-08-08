@@ -14,17 +14,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SpinnerIcon from "../components/spinner-icon";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "@/components/ui/use-toast";
 
 const RegisterForm = () => {
-  const router = useRouter();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { register } = useAuth();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, isSubmitting } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,8 +36,6 @@ const RegisterForm = () => {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

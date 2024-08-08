@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "../contexts/auth-context";
+import SpinnerIcon from "../components/spinner-icon";
 interface PostCardProps {
   post: Post;
   onEdit: (post: Post) => void;
@@ -28,6 +29,8 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
   const { user } = useAuth();
   const [isEditable, setIsEditable] = useState(false);
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (user) {
       setIsEditable(user.username === props.post.author);
@@ -48,6 +51,7 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
     const token = Cookies.get("token");
     setIsInEditMode(!isInEditMode);
     try {
+      setIsSubmitting(true);
       const url = `${apiUrl}/posts/${id}`;
 
       const res = await fetch(url, {
@@ -75,6 +79,8 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
         title: "Failed to update post status:",
         description: "erorr in sending request",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -120,7 +126,15 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
         </CardContent>
         <CardFooter className="flex justify-between">
           {isInEditMode ? (
-            <Button onClick={() => editPostDetails(props.post.id)}>Save</Button>
+            <Button
+              onClick={() => editPostDetails(props.post.id)}
+              disabled={isSubmitting}
+            >
+              {isSubmitting && (
+                <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Save
+            </Button>
           ) : (
             <Button
               disabled={!isEditable}
