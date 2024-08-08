@@ -21,6 +21,10 @@ interface PostCardProps {
   onEdit: (post: Post) => void;
 }
 const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
   const { user } = useAuth();
   const [isEditable, setIsEditable] = useState(false);
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -44,7 +48,7 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
     const token = Cookies.get("token");
     setIsInEditMode(!isInEditMode);
     try {
-      const url = `${process.env.NEXT_PUBLIC_API}/posts/${id}`;
+      const url = `${apiUrl}/posts/${id}`;
 
       const res = await fetch(url, {
         method: "PUT",

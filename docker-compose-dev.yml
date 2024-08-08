@@ -20,6 +20,9 @@ services:
           path: ./ui/package.json 
     depends_on:
       - api
+    networks:
+      - frontend_network
+
   api:
     build:
       context: ./api/
@@ -39,6 +42,9 @@ services:
           path: ./api   
     depends_on:
       - db
+    networks:
+      - frontend_network
+            
   db:
     image: mysql
     restart: always
@@ -51,3 +57,9 @@ services:
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    networks:
+      - frontend_network
+
+networks:
+  frontend_network:
+    driver: bridge      

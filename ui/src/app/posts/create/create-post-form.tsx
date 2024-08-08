@@ -25,7 +25,11 @@ interface AddResponse {
   message: string;
 }
 async function sendRequest(title: string, body: string) {
-  const url = `${process.env.NEXT_PUBLIC_API}/posts`;
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
+  const url = `${apiUrl}/posts`;
   const token = Cookies.get("token");
 
   const res = await fetch(url, {

@@ -11,11 +11,15 @@ interface UserRowProps {
 }
 
 const UserTableRow: React.FC<UserRowProps> = (userRowProps: UserRowProps) => {
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
   const { toast } = useToast();
 
   const deleteUser = async () => {
     const token = Cookies.get("token");
-    const url = `${process.env.NEXT_PUBLIC_API}/users/${userRowProps.user.id}`;
+    const url = `${apiUrl}/users/${userRowProps.user.id}`;
     const res = await fetch(url, {
       method: "DELETE",
       headers: {

@@ -4,8 +4,12 @@ import { User } from "../../lib/types";
 import { cookies } from "next/headers";
 
 async function getUsers() {
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
   const token = cookies().get("token");
-  const url = `${process.env.NEXT_PUBLIC_API}/users`;
+  const url = `${apiUrl}/users`;
   const res = await fetch(url, {
     cache: "no-store",
     headers: {

@@ -28,6 +28,11 @@ interface User {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
+
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -54,7 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/login`, {
+      const url = `${apiUrl}/login`;
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +86,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (username: string, password: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/register`, {
+      const url = `${apiUrl}/register`;
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

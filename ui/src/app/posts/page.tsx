@@ -4,9 +4,13 @@ import { cookies } from "next/headers";
 import PostsView from "./posts-view";
 
 async function getPosts(): Promise<Post[]> {
-  const token = cookies().get("token");
+  const apiUrl =
+    typeof window === "undefined"
+      ? process.env.INTERNAL_API
+      : process.env.NEXT_PUBLIC_API;
 
-  const url = `${process.env.NEXT_PUBLIC_API}/posts`;
+  const token = cookies().get("token");
+  const url = `${apiUrl}/posts`;
   const res = await fetch(url, {
     cache: "no-store",
     headers: {
