@@ -3,7 +3,6 @@ package auth
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -13,12 +12,6 @@ import (
 )
 
 var jwtKey = []byte(os.Getenv("JWT_SECRET_KEY"))
-
-type Claims struct {
-	UserId   int    `json:"user_id"`
-	Username string `json:"username"`
-	jwt.StandardClaims
-}
 
 func LoginHandler(db *sql.DB) http.HandlerFunc {
 
@@ -40,7 +33,6 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		// Compare the hashed password
 		if err := bcrypt.CompareHashAndPassword([]byte(storedUser.Password), []byte(user.Password)); err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Invalid username or password"})
@@ -54,8 +46,6 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 				ExpiresAt: expirationTime.Unix(),
 			},
 		}
-		fmt.Print(os.Getenv("JWT_SECRET_KEY"), "\n")
-
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, err := token.SignedString(jwtKey)
 		if err != nil {

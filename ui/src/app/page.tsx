@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useAuth } from "./contexts/authContext";
+import { useAuth } from "./contexts/auth-context";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {

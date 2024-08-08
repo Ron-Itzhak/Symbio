@@ -23,14 +23,14 @@ const UserTableRow: React.FC<UserRowProps> = (userRowProps: UserRowProps) => {
       },
     });
     const toastMessage =
-      res.status === 204
+      res.status === 200
         ? `User deleted successfully`
         : `User failed to be deleted`;
     toast({
       title: toastMessage,
       description: `Deleted User: ${userRowProps.user.username} `,
     });
-    if (res.status === 204) {
+    if (res.status === 200) {
       userRowProps.onDelete(userRowProps.user.id);
     }
   };

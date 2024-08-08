@@ -6,7 +6,7 @@ import PostCard from "./post-card";
 import { SearchComponent } from "../components/search-input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { usePosts } from "../contexts/postsContext";
+import { usePosts } from "../contexts/posts-context";
 
 interface PostsViewComponentProps {
   posts: Post[];

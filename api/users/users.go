@@ -5,11 +5,30 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
-type UserResponse struct {
-	Id       int    `json:"id"`
-	Username string `json:"username"`
+func DeleteUserHandler(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		idStr := vars["id"]
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "Invalid user ID", http.StatusBadRequest)
+			return
+		}
+		_, err = db.Exec("DELETE FROM users WHERE id = ?", id)
+		if err != nil {
+			http.Error(w, "User not found", http.StatusNotFound)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("User deleted successfully"))
+
+	}
 }
 
 func GetAllUsersHandler(db *sql.DB) http.HandlerFunc {

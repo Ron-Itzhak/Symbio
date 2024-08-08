@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "../contexts/authContext";
+import { useAuth } from "../contexts/auth-context";
 interface PostCardProps {
   post: Post;
   onEdit: (post: Post) => void;

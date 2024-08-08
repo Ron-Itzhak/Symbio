@@ -1,8 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../contexts/authContext";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../contexts/auth-context";
 
 interface ProtectedRouteProps {
   children: ReactNode;

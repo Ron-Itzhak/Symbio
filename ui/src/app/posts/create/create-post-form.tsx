@@ -17,8 +17,8 @@ import SpinnerIcon from "@/app/components/spinner-icon";
 import { Textarea } from "@/components/ui/textarea";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/contexts/authContext";
-import { usePosts } from "@/app/contexts/postsContext";
+import { useAuth } from "@/app/contexts/auth-context";
+import { usePosts } from "@/app/contexts/posts-context";
 
 interface AddResponse {
   post_id: number;

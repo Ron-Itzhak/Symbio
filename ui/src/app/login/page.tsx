@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "./login-form";
 
-const page = async () => {
+const Page = async () => {
   return (
     <div className="pt-2 flex items-center justify-center">
       <LoginForm></LoginForm>
@@ -9,4 +9,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;

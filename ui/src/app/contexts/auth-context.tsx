@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (username: string, password: string) => {
     try {
-      const response = await fetch("http://localhost:8080/register", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

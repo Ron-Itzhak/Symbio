@@ -24,15 +24,9 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/login", auth.LoginHandler(db)).Methods("POST")
-	router.HandleFunc("/register", auth.RegisterHandler(db)).Methods("POST")
-
-	router.Handle("/users", auth.AuthMiddleware(http.HandlerFunc(users.GetAllUsersHandler(db)))).Methods("GET")
-	router.Handle("/users/{id}", auth.AuthMiddleware(http.HandlerFunc(users.DeleteUserHandler(db)))).Methods("DELETE")
-
-	router.Handle("/posts", auth.AuthMiddleware(http.HandlerFunc(posts.CreatePostHandler(db)))).Methods("POST")
-	router.Handle("/posts", auth.AuthMiddleware(http.HandlerFunc(posts.GetAllPostsHandler(db)))).Methods("GET")
-	router.Handle("/posts/{id}", auth.AuthMiddleware(http.HandlerFunc(posts.EditPostHandler(db)))).Methods("PUT")
+	auth.RegisterRoutes(router, db)
+	users.RegisterRoutes(router, db)
+	posts.RegisterRoutes(router, db)
 
 	corsHandler := handlers.CORS(
 		handlers.AllowedOrigins([]string{"*"}),
@@ -41,8 +35,13 @@ func main() {
 	)
 	http.Handle("/", corsHandler(router))
 
-	log.Println("Server starting on port: 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("Server starting on port:  %s", port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
 }

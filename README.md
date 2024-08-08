@@ -11,7 +11,7 @@ docker-compose -f docker-compose-dev.yml up --build --watch
 
 ```
 
-you can also , run the prd file :
+you can instead run the production composition file :
 
 ```bash
 docker-compose -f docker-compose-prd.yml up --build
@@ -30,7 +30,7 @@ to run the script from main folder location, first need to run the main docker-c
 
 ```bash
 cd cli-script
-go run generate_posts.go
+go run generate-posts.go
 docker-compose up --build
 ```
 
