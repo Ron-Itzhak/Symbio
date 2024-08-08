@@ -26,19 +26,21 @@ const PostCard: React.FC<PostCardProps> = (props: PostCardProps) => {
     typeof window === "undefined"
       ? process.env.INTERNAL_API
       : process.env.NEXT_PUBLIC_API;
+
   const { user } = useAuth();
+  const { toast } = useToast();
   const [isEditable, setIsEditable] = useState(false);
   const [isExpanded, setIsExpanded] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bodyValue, setBodyValue] = useState(props.post.body);
+  const [titleValue, setTitleValue] = useState(props.post.title);
 
   useEffect(() => {
     if (user) {
       setIsEditable(user.username === props.post.author);
     }
   }, [user, props.post.author]);
-  const { toast } = useToast();
-  const [bodyValue, setBodyValue] = useState(props.post.body);
-  const [titleValue, setTitleValue] = useState(props.post.title);
+
   const handleTitleChange = (value: any) => {
     setTitleValue(value);
   };

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { User } from "../../lib/types";
 import { useToast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
+import { useAuth } from "../contexts/auth-context";
 
 interface UserRowProps {
   user: User;
@@ -16,6 +18,14 @@ const UserTableRow: React.FC<UserRowProps> = (userRowProps: UserRowProps) => {
       ? process.env.INTERNAL_API
       : process.env.NEXT_PUBLIC_API;
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [isDeletable, setIsDeletable] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      setIsDeletable(user.id !== userRowProps.user.id);
+    }
+  }, [user]);
 
   const deleteUser = async () => {
     const token = Cookies.get("token");
@@ -44,7 +54,11 @@ const UserTableRow: React.FC<UserRowProps> = (userRowProps: UserRowProps) => {
       <TableCell className="font-medium">{userRowProps.user.id}</TableCell>
       <TableCell>{userRowProps.user.username}</TableCell>
       <TableCell className="text-right">
-        <Button variant="outline" onClick={() => deleteUser()}>
+        <Button
+          disabled={!isDeletable}
+          variant="outline"
+          onClick={() => deleteUser()}
+        >
           Delete
         </Button>
       </TableCell>
